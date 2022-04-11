@@ -1,5 +1,5 @@
 package ups
-import cats.effect.std.Supervisor
+
 import cats.effect.{ IO, IOApp }
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 import org.typelevel.log4cats.{ Logger, SelfAwareStructuredLogger }
@@ -15,12 +15,11 @@ object Application extends IOApp.Simple {
     ConfigLoader
       .load[IO]
       .flatMap { cfg =>
-        Logger[IO].info(s"Loading config $cfg") >>
-          Supervisor[IO].use { implicit sp =>
-            val services = Services.make[IO]
-            val api      = HttpApi.make[IO](cfg.logConfig, services).httpApp
-            MkHttpServer[IO].newEmber(cfg.httpServerConfig, api).useForever
-          }
+        Logger[IO].info(s"Loading config $cfg") >> {
+          val services = Services.make[IO]
+          val api      = HttpApi.make[IO](cfg.logConfig, services).httpApp
+          MkHttpServer[IO].newEmber(cfg.httpServerConfig, api).useForever.void
+        }
       }
       .handleError { error =>
         Logger[IO].error(error)(s"Application crashed ....")

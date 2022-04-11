@@ -6,7 +6,7 @@ import org.http4s.server.middleware._
 import org.http4s.{ HttpApp, HttpRoutes }
 import org.typelevel.log4cats.Logger
 import ups.config.LogConfig
-import ups.http.routes.UpsRoutes
+import ups.http.routes.routes.UpsRoutes
 
 import scala.concurrent.duration.DurationInt
 
