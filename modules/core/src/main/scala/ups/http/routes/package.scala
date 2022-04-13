@@ -1,4 +1,4 @@
-package ups.http.routes
+package ups.http
 
 import cats.effect.Async
 import io.circe.{ Decoder, Encoder }

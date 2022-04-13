@@ -1,4 +1,4 @@
-package ups.http.routes.routes
+package ups.http.routes
 
 import cats.effect.Async
 import cats.implicits._
@@ -12,7 +12,7 @@ final case class UpsRoutes[F[_]: Async](ups: Ups[F]) extends Http4sDsl[F] {
   private[routes] val prefixPath = "/ups-service"
 
   private val httpRoutes: HttpRoutes[F] = HttpRoutes.of[F] {
-    case _ @ POST -> Root / "update-tracing-number" =>
+    case _ @POST -> Root / "update-tracing-number" =>
       ups.updateTrackingNumber().flatMap { response =>
         Ok(response)
       }

@@ -3,10 +3,10 @@ package ups.modules
 import cats.effect._
 import org.http4s.server.Router
 import org.http4s.server.middleware._
-import org.http4s.{ HttpApp, HttpRoutes }
+import org.http4s.{HttpApp, HttpRoutes}
 import org.typelevel.log4cats.Logger
 import ups.config.LogConfig
-import ups.http.routes.routes.UpsRoutes
+import ups.http.routes.UpsRoutes
 
 import scala.concurrent.duration.DurationInt
 
@@ -31,10 +31,6 @@ final class HttpApi[F[_]: Async: Logger: Sync] private (
     { http: HttpRoutes[F] =>
       AutoSlash(http)
     } andThen { http: HttpRoutes[F] =>
-      CORS.policy.withAllowOriginAll
-        .withAllowCredentials(false)
-        .apply(http)
-    } andThen { http: HttpRoutes[F] =>
       Timeout(60.seconds)(http)
     }
   }
@@ -46,6 +42,7 @@ final class HttpApi[F[_]: Async: Logger: Sync] private (
       ResponseLogger.httpApp(logConfig.httpHeader, logConfig.httpBody)(http)
     }
   }
+
   private[this] val routes: HttpRoutes[F] = Router(
     baseURL -> upsRoutes
   )

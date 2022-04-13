@@ -6,7 +6,7 @@ import org.http4s.Status.Ok
 import org.http4s.client.dsl.io._
 import org.http4s.implicits.http4sLiteralsSyntax
 import ups.domain.ResponseData
-import ups.http.routes.routes.{UpsRoutes, deriveEntityEncoder}
+import ups.http.routes.routes.deriveEntityEncoder
 import ups.services.Ups
 import ups.stub_services.UpsStub
 import ups.utils.Generators._
